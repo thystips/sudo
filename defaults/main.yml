@@ -1,0 +1,9 @@
+---
+sudo_groups_all:
+  - it_linux_admins
+
+sudo_users_all:
+  - ath
+
+sudo_user_all_nopasswd:
+  - localadmin

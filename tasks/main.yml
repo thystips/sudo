@@ -1,0 +1,42 @@
+---
+- name: SUDO for users
+  template:
+    src: "users.j2"
+    dest: "/etc/sudoers.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0640
+    validate: 'bash -c "cat /etc/sudoers %s | visudo -cf-"'
+  with_items:
+    - "{{ sudo_users_all }}"
+  tags:
+    - sudo
+    - sudo_users_add
+
+- name: SUDO for groups
+  template:
+    src: "groups.j2"
+    dest: "/etc/sudoers.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0640
+    validate: 'bash -c "cat /etc/sudoers %s | visudo -cf-"'
+  with_items:
+    - "{{ sudo_groups_all }}"
+  tags:
+    - sudo
+    - sudo_groups_add
+
+- name: SUDO for users without password
+  template:
+    src: "users_nopasswd.j2"
+    dest: "/etc/sudoers.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0640
+    validate: 'bash -c "cat /etc/sudoers %s | visudo -cf-"'
+  with_items:
+    - "{{ sudo_user_all_nopasswd }}"
+  tags:
+    - sudo
+    - sudo_users-nopasswd_add
