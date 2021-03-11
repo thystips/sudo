@@ -1,11 +1,80 @@
 ---
+molecule:
+  ignore_paths:
+    - .github
+    - .vscode
+    - .git
 dependency:
   name: galaxy
 driver:
-  name: delegated
+  name: docker
 platforms:
-  - name: instance
+  - name: centos-8
+    image: thystips/molecule-systemd:centos-8
+    pre_build_image: true
+    privileged: true
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - sudo
+      - centos
+
+  - name: centos-7
+    image: thystips/molecule-systemd:centos-7
+    pre_build_image: true
+    privileged: true
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - sudo
+      - centos
+
+  - name: ubuntu-20.04
+    image: thystips/molecule-systemd:ubuntu-20.04
+    pre_build_image: true
+    privileged: true
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - sudo
+      - debian
+
+  - name: debian-10
+    image: thystips/molecule-systemd:debian-10
+    pre_build_image: true
+    privileged: true
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - sudo
+      - debian
+
 provisioner:
   name: ansible
 verifier:
   name: ansible
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8

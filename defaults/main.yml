@@ -1,4 +1,8 @@
 ---
+# Install
+sudo_package: sudo
+
+# Config
 sudo_groups_all:
   - it_linux_admins
 

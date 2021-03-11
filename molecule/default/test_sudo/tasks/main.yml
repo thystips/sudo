@@ -1,0 +1,7 @@
+---
+- name: Include variables
+  include_vars: "../../../vars/main.yml"
+
+- name: Include group variables
+  include_vars: "../../../tests/group_vars/all.yml"
+

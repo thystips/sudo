@@ -1,4 +1,12 @@
 ---
+- name: Install SUDO package
+  package:
+    name: "{{ sudo_package }}"
+    state: present
+  tags:
+    - sudo
+    - sudo_package_add
+
 - name: SUDO for users
   template:
     src: "users.j2"
